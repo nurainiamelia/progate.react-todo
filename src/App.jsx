@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
-import Todos from './components/Todos';  // Lalukan Import
+import Todos from './components/Todos';
+import TodoForm from './components/ToDoForm';
 
 function App() {
   const [todos, setTodos] = useState([
@@ -32,38 +33,36 @@ function App() {
     setTodos(updatedTodos)
   }
 
-  // const deleteTodo = (todoId) => {
-  //   //pseudo
-  //   //get id
-  //   //delete function js
-  //   //kayanya ada lagi kemaren tapi apaya
-  //   //=ternyata adalagi, di button delete diganti jadi onClick
-  //   const findIndex = todos.findIndex( i => {
-  //     return i.id === todoId
-  //   })
-
-  //   if (findIndex !== -1) {
-  //     todos.splice(findIndex, 1)
-  //   }
-
-  //   const deleteTodo = todos.map((todo) => {
-  //     console.log("hit", todo)
-  //     return todo
-  //   })
-
-  //   setTodos(deleteTodo)
-  // }
-
   const deleteTodo = (todoId) => {
     const updatedTodos = todos.filter((todo) => todo.id !== todoId);
     setTodos(updatedTodos);
   };
 
+  const addTodo = (todoTitle) => {
+    if (todoTitle === '') {
+      return
+    }
+
+    const newTodo = {
+      id: todos.length + 1,
+      title: todoTitle,
+      completed: false,
+    }
+
+    const updatedTodos = todos.concat(newTodo)
+    setTodos(updatedTodos)
+  }
+
   return (
     <div style={styles.container}>
       <h1 style={styles.title}>My Todo List</h1>
-      {/* Teruskan function toggleCompleted ke component Todos */}
-      <Todos todos={todos} toggleCompleted={toggleCompleted} deleteTodo={deleteTodo} />
+      {/* Teruskan function addTodo sebagai props */}
+      <TodoForm addTodo={addTodo} /> 
+      <Todos
+        todos={todos}
+        toggleCompleted={toggleCompleted}
+        deleteTodo={deleteTodo}
+      />
     </div>
   )
 }
